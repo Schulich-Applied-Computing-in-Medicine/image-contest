@@ -7,7 +7,7 @@ from .utils import multi_score
 from sklearn.metrics import roc_auc_score
 
 
-def train_model(train_data, val_data, model, config, optimizer_class=optim.Adam):
+def train_model(train_data, val_data, model, config, optimizer_class=optim.Adam, is_inception = False):
 
   batch_size = config["batch_size"]
   learning_rate = config["learning_rate"]
@@ -36,6 +36,9 @@ def train_model(train_data, val_data, model, config, optimizer_class=optim.Adam)
       data, target = data.to(device), target.to(device)
       optimizer.zero_grad()
       output = model(data)
+
+      if is_inception:
+          output = output.logits
 
       criterion = nn.BCEWithLogitsLoss()
 
