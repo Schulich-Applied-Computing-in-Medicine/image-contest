@@ -1,13 +1,15 @@
 import torch
-import torch.optim as optim
-from torch.utils.data import DataLoader
-import torch.nn as nn
 import numpy as np
-from .utils import multi_score
+from collections import OrderedDict
 from sklearn.metrics import roc_auc_score
 
+import torch.nn as nn
+import torch.optim as optim
+from torch.utils.data import DataLoader
 
-def train_model(train_data, val_data, model, config, optimizer_class=optim.Adam, is_inception = False):
+from .utils import multi_score
+
+def train_model(train_data, val_data, model, config, optimizer_class=optim.Adam, is_inception = False, keep_best = False):
 
   batch_size = config["batch_size"]
   learning_rate = config["learning_rate"]
@@ -20,8 +22,11 @@ def train_model(train_data, val_data, model, config, optimizer_class=optim.Adam,
   # The optimizer -- not sure if Adam is the best choice
   optimizer = optimizer_class(model.parameters(), lr=learning_rate)
 
+
   device = torch.device("cuda")
   model.to(device)
+
+  best_score = 0
 
   # Train loop
   for epoch in range(epochs):
@@ -107,6 +112,13 @@ def train_model(train_data, val_data, model, config, optimizer_class=optim.Adam,
     print(' Validation set: Average loss: {:.4f}, Multi-disease score: {:.4f}, AUROC: {:.4f}'.format(
         val_loss, score, auroc))
 
-  model_weights = model.state_dict()
+    total_score = (score + auroc)/2
+    if total_score >= best_score:
+        best_score = total_score
+        if keep_best:
+            model_weights = model.state_dict()
+
+  if not keep_best:
+      model_weights = model.state_dict()
 
   return model_weights
