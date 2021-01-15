@@ -2,6 +2,7 @@ import torch
 import torch.optim as optim
 from torch.utils.data import DataLoader
 import torch.nn as nn
+import numpy as np
 
 def train_model(train_data, val_data, model, config, optimizer_class=optim.Adam):
 
