@@ -15,8 +15,10 @@ class FundoImages(Dataset):
     self.transform = transform
 
   def __len__(self): # The length of the dataset is important for iterating through it
-
-    return len(self.df) # Can just take the number of rows in the dataframe
+    if self.df is not None:
+        return len(self.df) # Can just take the number of rows in the dataframe
+    else
+        return len(os.listdir(self.directory))
 
   def __getitem__(self, idx):
 
