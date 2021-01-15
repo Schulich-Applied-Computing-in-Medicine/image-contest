@@ -12,7 +12,7 @@ import copy
 
 import wandb
 
-def train_model(train_data, val_data, model, config, optimizer_class=optim.Adam, is_inception = False, keep_best = False, wandb = False):
+def train_model(train_data, val_data, model, config, optimizer_class=optim.Adam, is_inception = False, keep_best = False, use_wandb = False):
 
   batch_size = config["batch_size"]
   learning_rate = config["learning_rate"]
@@ -116,15 +116,15 @@ def train_model(train_data, val_data, model, config, optimizer_class=optim.Adam,
         val_loss, score, auroc))
 
     total_score = (score + auroc)/2
-
-    wandb.log({
-            "epoch": epoch,
-            "multi_score": score,
-            "auroc": auroc,
-            "total_score": total_score,
-            "train_loss": train_loss,
-            "val_loss": val_loss,
-            })
+    if use_wandb:
+        wandb.log({
+                "epoch": epoch,
+                "multi_score": score,
+                "auroc": auroc,
+                "total_score": total_score,
+                "train_loss": train_loss,
+                "val_loss": val_loss,
+                })
 
 
     if total_score >= best_score:
@@ -134,6 +134,6 @@ def train_model(train_data, val_data, model, config, optimizer_class=optim.Adam,
 
   if not keep_best:
       model_weights = model.state_dict()
-  
+
 
   return model_weights
