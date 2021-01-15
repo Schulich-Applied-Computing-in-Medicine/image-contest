@@ -7,9 +7,9 @@ from PIL import Image
 
 
 class FundoImages(Dataset):
-  def __init__(self, df, train):
+  def __init__(self, df, transform = None):
     self.df = df # This is the Pandas dataframe that has the labels corresponding to each image (by index)
-    self.train = train
+    self.transform = transform
 
   def __len__(self): # The length of the dataset is important for iterating through it
 
@@ -25,8 +25,9 @@ class FundoImages(Dataset):
 
     # Apply random transforms if the train flag is true
     # Otherwise, just convert to tensor. We don't want randomness in our evaluation data
-    if self.train:
-      transform = transforms.Compose([transforms.RandomHorizontalFlip(), transforms.RandomRotation(30), transforms.ToTensor()])
+
+    if self.train is not None:
+      transform = transforms.Compose([self.transform, transforms.ToTensor()])
     else:
       transform = transforms.ToTensor()
 
