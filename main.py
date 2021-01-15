@@ -4,6 +4,8 @@ from torch.utils.data import DataLoader
 import torch.nn as nn
 import numpy as np
 from .utils import multi_score
+from sklearn.metrics import roc_auc_score
+
 
 def train_model(train_data, val_data, model, config, optimizer_class=optim.Adam):
 
