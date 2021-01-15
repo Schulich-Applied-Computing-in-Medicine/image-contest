@@ -1,7 +1,7 @@
 # Function to calculate the "multi disease avg score" used on the leaderboard
 # score = (mean AUC + mAP)/2
 
-import np
+import numpy as np
 from sklearn.metrics import roc_auc_score, average_precision_score
 def multi_score(target, probs):
 
