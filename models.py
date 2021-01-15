@@ -1,3 +1,6 @@
+from pretrainedmodels import se_resnext50_32x4d
+import torchvision.models as models
+
 # Models
 def se_resnext(num_classes, pretrained):
 
