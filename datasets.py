@@ -2,6 +2,7 @@
 # Loads the images from the resize_crop_train directory and labels from the dataframe specified
 #  Converts to torch tensor
 from torch.utils.data import Dataset
+from PIL import Image
 
 
 
