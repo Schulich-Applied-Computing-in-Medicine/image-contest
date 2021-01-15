@@ -26,7 +26,7 @@ class FundoImages(Dataset):
     # Apply random transforms if the train flag is true
     # Otherwise, just convert to tensor. We don't want randomness in our evaluation data
 
-    if self.train is not None:
+    if self.transform is not None:
       transform = transforms.Compose([self.transform, transforms.ToTensor()])
     else:
       transform = transforms.ToTensor()
