@@ -8,6 +8,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 
 from .utils import multi_score
+import copy
 
 def train_model(train_data, val_data, model, config, optimizer_class=optim.Adam, is_inception = False, keep_best = False):
 
@@ -116,7 +117,7 @@ def train_model(train_data, val_data, model, config, optimizer_class=optim.Adam,
     if total_score >= best_score:
         best_score = total_score
         if keep_best:
-            model_weights = model.state_dict()
+            model_weights = copy.deepcopy(model.state_dict())
 
   if not keep_best:
       model_weights = model.state_dict()
