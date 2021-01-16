@@ -12,7 +12,9 @@ import copy
 
 import wandb
 
-def train_model(train_data, val_data, model, config, optimizer_class=optim.Adam, is_inception = False, keep_best = False, use_wandb = False):
+def train_model(train_data, val_data, model, config,
+                optimizer_class=optim.Adam, is_inception = False,
+                keep_best = False, use_wandb = False, criterion = nn.BCEWithLogitsLoss()):
 
   batch_size = config["batch_size"]
   learning_rate = config["learning_rate"]
@@ -47,9 +49,6 @@ def train_model(train_data, val_data, model, config, optimizer_class=optim.Adam,
 
       if is_inception:
           output = output.logits
-
-      criterion = nn.BCEWithLogitsLoss()
-
 
       loss = criterion(output.squeeze(1), target.type(torch.float))
       probs = torch.sigmoid(output.squeeze(1)).cpu().detach().numpy()
@@ -87,9 +86,6 @@ def train_model(train_data, val_data, model, config, optimizer_class=optim.Adam,
       data, target = data.to(device), target.to(device)
 
       output = model(data)
-
-      criterion = nn.BCEWithLogitsLoss()
-
 
       loss = criterion(output.squeeze(1), target.type(torch.float))
 
