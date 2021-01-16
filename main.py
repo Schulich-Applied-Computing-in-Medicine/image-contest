@@ -22,7 +22,7 @@ def train_model(train_data, val_data, model, config,
 
   # Dataloaders - help optimize loading, shuffles, and batches
   train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
-  val_loader = DataLoader(val_data, batch_size=16, shuffle=False)
+  val_loader = DataLoader(val_data, batch_size=batch_size, shuffle=False)
 
   # The optimizer -- not sure if Adam is the best choice
   optimizer = optimizer_class(model.parameters(), lr=learning_rate)
