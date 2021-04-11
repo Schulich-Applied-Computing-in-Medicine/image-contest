@@ -17,12 +17,13 @@ def train_model(train_data, val_data, model, config,
                 keep_best = False, use_wandb = False, criterion = nn.BCEWithLogitsLoss()):
 
   batch_size = config["batch_size"]
+  val_batch_size = config["val_batch_size"]
   learning_rate = config["learning_rate"]
   epochs = config["epochs"]
 
   # Dataloaders - help optimize loading, shuffles, and batches
   train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
-  val_loader = DataLoader(val_data, batch_size=batch_size, shuffle=False)
+  val_loader = DataLoader(val_data, batch_size=val_batch_size, shuffle=False)
 
   # The optimizer -- not sure if Adam is the best choice
   optimizer = optimizer_class(model.parameters(), lr=learning_rate)
